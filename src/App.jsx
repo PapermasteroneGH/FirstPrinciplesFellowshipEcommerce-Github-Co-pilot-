@@ -1,4 +1,3 @@
-import { useMemo, useState } from 'react'
 import { HashRouter as Router, Link, Route, Routes } from 'react-router-dom'
 import './App.css'
 
@@ -186,67 +185,38 @@ function Programs() {
   )
 }
 
-function Sponsorship({ cart, addToCart, removeFromCart, total, checkout }) {
+function Sponsorship() {
   return (
     <section className="shop" id="shop">
       <div className="container">
         <h2>Sponsorship Packages</h2>
         <p>
-          Choose a package to support research teams and unlock community
-          benefits.
+          These packages are currently informational only. To sponsor our work, please reach out by email.
         </p>
         <div className="product-grid">
           {packagesData.map((item) => (
             <div key={item.id} className="product-card">
               <h3>{item.name}</h3>
-              <p>${item.price} CAD</p>
+              <p>${item.price} CAD (indicative only)</p>
               <ul>
                 {item.benefits.map((benefit, idx) => (
                   <li key={idx}>{benefit}</li>
                 ))}
               </ul>
-              <button className="btn btn-primary" onClick={() => addToCart(item)}>
-                Add to Cart
-              </button>
             </div>
           ))}
         </div>
-
-        <aside className="cart" id="cart">
-          <h3>Cart</h3>
-          <ul id="cartItems" className="cart-items">
-            {cart.length > 0 ? (
-              cart.map((item, idx) => (
-                <li key={`${item.id}-${idx}`}>
-                  <span>
-                    {item.name} - ${item.price.toFixed(2)}
-                  </span>
-                  <button className="btn btn-secondary" onClick={() => removeFromCart(idx)}>
-                    Remove
-                  </button>
-                </li>
-              ))
-            ) : (
-              <li>No items yet.</li>
-            )}
-          </ul>
-          <div className="cart-summary">
-            <span>Total:</span>
-            <strong>${total.toFixed(2)}</strong>
-          </div>
-          <button className="btn btn-secondary" disabled={!cart.length} onClick={checkout}>
-            Checkout
-          </button>
-          <p className="cart-note">
-            *This demo shows an order workflow; integrate Stripe/PayPal in production.
-          </p>
-        </aside>
+        <div className="contact-summary" style={{ marginTop: '1rem', padding: '1rem', border: '1px solid #334155', borderRadius: '10px', background: '#0f172a' }}>
+          <h3>How to Sponsor</h3>
+          <p>Send an email to <a href="mailto:info@firstprinciplesfellowship.org">info@firstprinciplesfellowship.org</a> with the package name and your organization details.</p>
+          <p>We’ll follow up with an invoice and next steps.</p>
+        </div>
       </div>
     </section>
   )
 }
 
-function Contact({ contact, setContact, status, handleSubmit }) {
+function Contact() {
   return (
     <section className="contact" id="contact">
       <div className="container">
@@ -255,66 +225,23 @@ function Contact({ contact, setContact, status, handleSubmit }) {
           Ready to collaborate? We’re actively engaging with research institutions and
           funders worldwide.
         </p>
-        <form className="contact-form" onSubmit={handleSubmit}>
-          <label htmlFor="name">Name</label>
-          <input
-            id="name"
-            type="text"
-            value={contact.name}
-            onChange={(e) => setContact({ ...contact, name: e.target.value })}
-            required
-          />
-
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={contact.email}
-            onChange={(e) => setContact({ ...contact, email: e.target.value })}
-            required
-          />
-
-          <label htmlFor="message">Message</label>
-          <textarea
-            id="message"
-            rows={4}
-            value={contact.message}
-            onChange={(e) => setContact({ ...contact, message: e.target.value })}
-            required
-          />
-
-          <button className="btn btn-primary">Send Message</button>
-          <p className="message-status">{status}</p>
-        </form>
+        <div className="contact-info" style={{ display: 'grid', gap: '12px' }}>
+          <p>
+            Email: <a href="mailto:info@firstprinciplesfellowship.org">info@firstprinciplesfellowship.org</a>
+          </p>
+          <p>Phone: +1 (555) 123-4567</p>
+          <p>Address: 123 Research Way, Innovation City, Country</p>
+          <p>
+            Describe your research area, required support, and timeline. We will contact
+            you with proposal options and next steps.
+          </p>
+        </div>
       </div>
     </section>
   )
 }
 
 function App() {
-  const [cart, setCart] = useState([])
-  const [contact, setContact] = useState({ name: '', email: '', message: '' })
-  const [status, setStatus] = useState('')
-
-  const total = useMemo(() => cart.reduce((sum, item) => sum + item.price, 0), [cart])
-
-  const addToCart = (item) => setCart((prev) => [...prev, item])
-  const removeFromCart = (idx) => setCart((prev) => prev.filter((_, i) => i !== idx))
-
-  const checkout = () => {
-    if (!cart.length) return
-    alert(`Thank you for your sponsorship! Total: $${total.toFixed(2)}`)
-    setCart([])
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setStatus('Sending...')
-    setTimeout(() => {
-      setStatus('Thank you! We received your message and will follow up within 2 business days.')
-      setContact({ name: '', email: '', message: '' })
-    }, 800)
-  }
 
   return (
     <Router>
@@ -326,29 +253,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
             <Route path="/programs" element={<Programs />} />
-            <Route
-              path="/sponsorship"
-              element={
-                <Sponsorship
-                  cart={cart}
-                  addToCart={addToCart}
-                  removeFromCart={removeFromCart}
-                  total={total}
-                  checkout={checkout}
-                />
-              }
-            />
-            <Route
-              path="/contact"
-              element={
-                <Contact
-                  contact={contact}
-                  setContact={setContact}
-                  status={status}
-                  handleSubmit={handleSubmit}
-                />
-              }
-            />
+            <Route path="/sponsorship" element={<Sponsorship />} />
+            <Route path="/contact" element={<Contact />} />
             <Route
               path="*"
               element={
