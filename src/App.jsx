@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom'
+import { HashRouter as Router, Link, Route, Routes } from 'react-router-dom'
 import './App.css'
 
 const services = [
