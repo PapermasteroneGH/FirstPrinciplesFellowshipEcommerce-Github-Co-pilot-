@@ -1,0 +1,31 @@
+:root {
+  --bg: #0f172a;
+  --text: #f8fafc;
+  --text-muted: #cbd5e1;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 18px;
+  color: var(--text);
+  background: linear-gradient(180deg, #020617 0%, #070f21 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1,
+h2 {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
